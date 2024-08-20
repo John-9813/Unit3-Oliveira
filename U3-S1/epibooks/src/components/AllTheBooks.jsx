@@ -31,6 +31,7 @@ class AllTheBooks extends Component {
                   <Card.Title className="text-truncate">{book.title}</Card.Title>
                   <Card.Text>
                     <strong>Price:</strong> ${book.price}
+                    <strong className="ms-2">{book.category}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
