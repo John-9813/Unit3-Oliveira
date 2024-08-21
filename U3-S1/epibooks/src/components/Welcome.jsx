@@ -7,7 +7,7 @@ const Welcome = () => {
         <h1>Benvenuti su EpiBooks!</h1>
         <h2>Esplora la nostra collezione di libri e trova il tuo prossimo preferito.</h2>
       </Alert>
-      <h5 className="text-center">La tua libreria online di fiducia</h5>
+      <h5 className="text-center">In evidenzia</h5>
     </div>
   )
 }
