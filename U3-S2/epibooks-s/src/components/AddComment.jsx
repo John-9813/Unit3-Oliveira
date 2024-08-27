@@ -23,7 +23,7 @@ const AddComment = ({ asin, fetchComments }) => {
           body: JSON.stringify(review), // Converte lo stato review in una stringa JSON
           headers: {
             "Content-Type": "application/json", // Indica che il body è in formato JSON
-            Authorization: "Bearer <TOKEN>", // Token per l'autenticazione
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmNkZjI5NDY5NDA2YTAwMTUwZDk1NmIiLCJpYXQiOjE3MjQ3NzMwMTMsImV4cCI6MTcyNTk4MjYxM30.KFTr0hyddi6HcW9FeovKNKCmzPY4wQ_B04uY70m8Dj0", // Token per l'autenticazione
           },
         }
       );
