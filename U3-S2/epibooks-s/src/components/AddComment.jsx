@@ -1,92 +1,90 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-class AddComment extends Component {
-  state = {
-    review: {
-      comment: "",
-      rate: 1,
-      elementId: this.props.asin,
-    },
-  };
+const AddComment = ({ asin, fetchComments }) => {
+ 
+  const [review, setReview] = useState({
+    comment: "", 
+    rate: 1, 
+    elementId: asin, 
+  });
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
+  // Funzione per gestire l'invio del form
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Previene il comportamento predefinito del form di ricaricare la pagina
 
     try {
+      // Effettua una chiamata POST per inviare il commento
+      console.log("Invio il commento:", review);
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments/",
         {
           method: "POST",
-          body: JSON.stringify(this.state.review),
+          body: JSON.stringify(review), // Converte lo stato review in una stringa JSON
           headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM3NDUzNTQzYTU2ODAwMTU4ZWM0MWIiLCJpYXQiOjE3MjQzMzU0MTMsImV4cCI6MTcyNTU0NTAxM30.c4oJZnl34fK3UzrgF55WQWeNax9yxwxICgmmnTmEFLA",
+            "Content-Type": "application/json", // Indica che il body è in formato JSON
+            Authorization: "Bearer <TOKEN>", // Token per l'autenticazione
           },
         }
       );
+
+      // Controlliamo se la risposta è ok
       if (response.ok) {
         alert("Commento aggiunto!");
-        this.setState({
-          review: {
-            comment: "",
-            rate: 1,
-            elementId: this.props.asin, // Manteniamo l'asin corretto
-          },
+        console.log("Commento inviato correttamente");
+        // Resettiamo lo stato del commento
+        setReview({
+          comment: "",
+          rate: 1,
+          elementId: asin, // Manteniamo l'asin attuale
         });
-        this.props.fetchComments(); // Richiamiamo i commenti aggiornati
+        fetchComments(); // Aggiorniamo la lista dei commenti
       } else {
         alert("Errore nell'invio del commento");
+        console.error("Errore nella risposta del server");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Errore durante la richiesta", error);
     }
   };
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Commento</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            value={this.state.review.comment}
-            onChange={(e) =>
-              this.setState({
-                review: { ...this.state.review, comment: e.target.value },
-              })
-            }
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Voto</Form.Label>
-          <Form.Control
-            as="select"
-            value={this.state.review.rate}
-            onChange={(e) =>
-              this.setState({
-                review: { ...this.state.review, rate: e.target.value },
-              })
-            }
-            required
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Form.Control>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Invia commento
-        </Button>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Commento</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          value={review.comment}
+          onChange={(e) =>
+            setReview({ ...review, comment: e.target.value })
+          }
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Voto</Form.Label>
+        <Form.Control
+          as="select"
+          value={review.rate}
+          onChange={(e) =>
+            setReview({ ...review, rate: e.target.value })
+          }
+          required
+        >
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </Form.Control>
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Invia commento
+      </Button>
+    </Form>
+  );
+};
 
 export default AddComment;
 
