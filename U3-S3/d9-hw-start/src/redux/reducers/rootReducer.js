@@ -1,6 +1,6 @@
 
 import { combineReducers } from 'redux';
-import favouritesReducer from './favouritesReducer';
+import favouritesReducer from './favoritesReducer';
 import jobsReducer from './jobsReducer';
 
 const rootReducer = combineReducers({
